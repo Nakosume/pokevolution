@@ -17,9 +17,9 @@ async function getPoke(id) {
         const poke2 = await fetch('https://pokeapi.co/api/v2/pokemon/'+id).then(res=>res.json())
         const poke3 = await fetch(poke.evolution_chain.url).then(res=>res.json())
 
-        console.log(poke)
-        console.log(poke2)
-        console.log(poke3)
+        //console.log(poke)
+        //console.log(poke2)
+        //console.log(poke3)
 
         const result = pokemon;
             result.pokeName = poke.name;
@@ -32,8 +32,6 @@ async function getPoke(id) {
                 result.prevEvo = poke.evolves_from_species.name
             //next Evo
             if(poke3.chain.evolves_to[0].species.name !== poke.name){
-                console.log(poke3.chain.evolves_to[0].evolves_to[0].species.name)
-                console.log(poke.name)
                 if(poke3.chain.evolves_to[0].evolves_to[0].species.name !== poke.name){
                     result.nextEvo = poke3.chain.evolves_to[0].species.name
                 }
@@ -44,15 +42,15 @@ async function getPoke(id) {
                 }
             }
 
-        console.log(result)
-        return
+        return result
     }catch(error){
         console.error("error, couldn't fetch from API")
+        alert("Couldn't fetch from API. Try checking the spelling.")
     }
 }
 
 function createCard (pokemon) {
-    console.log("IT WORKS")
+    console.log("Create Card(), pokemon:",pokemon)
     /* let cardInfo = "";
     APIData.results.forEach(e => {
         const cardStuff = this.document.createElement('h3');
