@@ -16,19 +16,33 @@ async function getPoke(id) {
         const poke = await fetch('https://pokeapi.co/api/v2/pokemon-species/'+id).then(res=>res.json())
         const poke2 = await fetch('https://pokeapi.co/api/v2/pokemon/'+id).then(res=>res.json())
         const poke3 = await fetch(poke.evolution_chain.url).then(res=>res.json())
+
         console.log(poke)
         console.log(poke2)
         console.log(poke3)
+
         const result = pokemon;
-        result.pokeName = poke.name;
-        result.pokeId = poke.id;
-        result.pokeSprite = poke2.sprites.front_default
-        result.pokeColor = poke.color.name
-        result.pokeHeight = poke2.height
-        if(poke.evolves_from_species !== null)
-            result.prevEvo = poke.evolves_from_species.name
-        if(poke3.chain.evolves_to[0].species.name !== null)
-        result.nextEvo = poke3.chain.evolves_to[0].species.name
+            result.pokeName = poke.name;
+            result.pokeId = poke.id;
+            result.pokeSprite = poke2.sprites.front_default
+            result.pokeColor = poke.color.name
+            result.pokeHeight = poke2.height
+            //prev Evo
+            if(poke.evolves_from_species !== null)
+                result.prevEvo = poke.evolves_from_species.name
+            //next Evo
+            if(poke3.chain.evolves_to[0].species.name !== poke.name){
+                console.log(poke3.chain.evolves_to[0].evolves_to[0].species.name)
+                console.log(poke.name)
+                if(poke3.chain.evolves_to[0].evolves_to[0].species.name !== poke.name){
+                    result.nextEvo = poke3.chain.evolves_to[0].species.name
+                }
+            }
+            else{
+                if(poke3.chain.evolves_to[0].evolves_to[0].species.name !== poke.name){
+                    result.nextEvo = poke3.chain.evolves_to[0].evolves_to[0].species.name
+                }
+            }
 
         console.log(result)
         return
@@ -67,7 +81,7 @@ function showAPI () {
     buto.innerText='search'
     buto.addEventListener("click",async()=>{
         //console.log(getPoke(bar.value))
-        let pokemon = getPoke(bar.value)
+        let pokemon = await getPoke(bar.value)
         createCard(pokemon)
     })
     search.appendChild(buto)
