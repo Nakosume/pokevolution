@@ -1,5 +1,5 @@
 console.log("Initializing API Fetch");
-
+//_______________________________________________________________________________________________________
 const pokemon = {
     pokeName: "nullname",
     pokeId: "nullid",
@@ -9,7 +9,7 @@ const pokemon = {
     prevEvo: "nullPrev",
     nextEvo: "nullNext",
 }
-
+//_______________________________________________________________________________________________________
 async function getPoke(id) {
     console.log("loading data...")
     try{
@@ -48,24 +48,31 @@ async function getPoke(id) {
         alert("Couldn't fetch from API. Try checking the spelling.")
     }
 }
-
+//_______________________________________________________________________________________________________
 function createCard (pokemon) {
     console.log("Create Card(), pokemon:",pokemon)
-    /* let cardInfo = "";
-    APIData.results.forEach(e => {
-        const cardStuff = this.document.createElement('h3');
-        cardStuff.classList.add("cardStyle")
-        cardInfo = `Name: ${e.name} Height: ${e.height}cm Weight: ${e.mass}Kg`
-        const cardButton = this.document.createElement('button');
-        cardButton.classList.add("buttonStyle")
-        cardButton.innerText='Add';
-        console.log(cardInfo)
-        cardStuff.append(cardInfo)
-        cardStuff.append(cardButton)
-        cardHolder.appendChild(cardStuff)
-    }); */
-}
+    const cardStuff = this.document.createElement('div');
+    cardStuff.classList.add("cardStyle")
+    let cardInfo = `
+        <img src='${pokemon.pokeSprite}'>
+        <h3>${(pokemon.pokeName)[0].toUpperCase() + (pokemon.pokeName).substring(1)} ID: ${pokemon.pokeId}</h3>
+        <h5>Height: ${pokemon.pokeHeight} Units</h5>
+        <h5>Color: ${pokemon.pokeColor}</h5>
+        <div>
 
+        </div>
+        `
+
+    const cardButton = this.document.createElement('button');
+    cardButton.classList.add("buttonStyle")
+    cardButton.innerText='Add';
+
+    console.log(cardInfo)
+    cardStuff.innerHTML = cardInfo
+    cardStuff.append(cardButton)
+    cardHolder.appendChild(cardStuff)
+}
+//_______________________________________________________________________________________________________
 function showAPI () {
     let search = document.getElementById("search")
     let cardHolder = document.getElementById("cardHolder")
@@ -84,5 +91,5 @@ function showAPI () {
     })
     search.appendChild(buto)
 }
-
+//_______________________________________________________________________________________________________
 showAPI()
