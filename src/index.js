@@ -1,32 +1,44 @@
 console.log("Initializing API Fetch");
 
+const pokemon = {
+    pokeName: "nullname",
+    pokeId: "nullid",
+    pokeSprite: "nullImg",
+    pokeColor: "nullColor",
+    pokeHeight: "nullHeight",
+    prevEvo: "nullPrev",
+    nextEvo: "nullNext",
+}
+
 async function getPoke(id) {
+    console.log("loading data...")
     try{
-        const poke = fetch('https://pokeapi.co/api/v2/pokemon-species/'+id).then(res=>res.json())
-       // console.log(poke)
-        return poke;
+        const poke = await fetch('https://pokeapi.co/api/v2/pokemon-species/'+id).then(res=>res.json())
+        const poke2 = await fetch('https://pokeapi.co/api/v2/pokemon/'+id).then(res=>res.json())
+        const poke3 = await fetch(poke.evolution_chain.url).then(res=>res.json())
+        console.log(poke)
+        console.log(poke2)
+        console.log(poke3)
+        const result = pokemon;
+        result.pokeName = poke.name;
+        result.pokeId = poke.id;
+        result.pokeSprite = poke2.sprites.front_default
+        result.pokeColor = poke.color.name
+        result.pokeHeight = poke2.height
+        if(poke.evolves_from_species !== null)
+            result.prevEvo = poke.evolves_from_species.name
+        if(poke3.chain.evolves_to[0].species.name !== null)
+        result.nextEvo = poke3.chain.evolves_to[0].species.name
+
+        console.log(result)
+        return
     }catch(error){
-        console.error('error')
+        console.error("error, couldn't fetch from API")
     }
 }
 
-function showAPI () {
-    console.log("loading data...")
-    let search = document.getElementById("search")
-    let cardHolder = document.getElementById("cardHolder")
-
-    const bar = this.document.createElement('input')
-    bar.setAttribute("id","bar")
-    bar.setAttribute("type","text")
-    search.appendChild(bar)
-
-    let buto = this.document.createElement('button')
-    buto.innerText='search'
-    buto.addEventListener("click",async()=>{
-        console.log(getPoke(bar.value))
-    })
-    search.appendChild(buto)
-
+function createCard (pokemon) {
+    console.log("IT WORKS")
     /* let cardInfo = "";
     APIData.results.forEach(e => {
         const cardStuff = this.document.createElement('h3');
@@ -40,6 +52,25 @@ function showAPI () {
         cardStuff.append(cardButton)
         cardHolder.appendChild(cardStuff)
     }); */
+}
+
+function showAPI () {
+    let search = document.getElementById("search")
+    let cardHolder = document.getElementById("cardHolder")
+
+    const bar = this.document.createElement('input')
+    bar.setAttribute("id","bar")
+    bar.setAttribute("type","text")
+    search.appendChild(bar)
+
+    let buto = this.document.createElement('button')
+    buto.innerText='search'
+    buto.addEventListener("click",async()=>{
+        //console.log(getPoke(bar.value))
+        let pokemon = getPoke(bar.value)
+        createCard(pokemon)
+    })
+    search.appendChild(buto)
 }
 
 showAPI()
