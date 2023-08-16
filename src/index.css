@@ -20,8 +20,22 @@ body{
 .cardStyle{
     background-color: #FFE81F;
     width: max-content;
-    padding: 5%;
+    height: fit-content;
+    padding: 3%;
+    width: 30%;
     border-radius: 50px;
+    display: flex;
+    flex-direction: column;
+}
+
+.infoLabel{
+    margin: 0%;
+}
+
+.buttonGroup{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
 }
 
 button{
@@ -29,6 +43,6 @@ button{
     color: #FFE81F;
     border-radius: 20px;
     padding: 10px;
-    margin-left: 10px;
+    margin-top: 10%;
     border-style: none;
 }
