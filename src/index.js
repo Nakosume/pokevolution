@@ -1,6 +1,6 @@
 console.log("Initializing API Fetch");
 //_______________________________________________________________________________________________________
-const pokemon = {
+const pokemonObj = {
     pokeName: "nullname",
     pokeId: "nullid",
     pokeSprite: "nullImg",
@@ -21,7 +21,7 @@ async function getPoke(id) {
         //console.log(poke2)
         //console.log(poke3)
 
-        const result = pokemon;
+        const result = pokemonObj;
             result.pokeName = poke.name;
             result.pokeId = poke.id;
             result.pokeSprite = poke2.sprites.front_default
@@ -50,28 +50,80 @@ async function getPoke(id) {
 }
 //_______________________________________________________________________________________________________
 function createCard (pokemon) {
-    cardHolder.innerHTML = ``
+    cardHolder.innerHTML = null
     console.log("Create Card(), pokemon:",pokemon)
     const cardStuff = this.document.createElement('div');
     cardStuff.classList.add("cardStyle")
-    let cardInfo = `
-        <img src='${pokemon.pokeSprite}'>
-        <h3 class="infoLabel">${(pokemon.pokeName)[0].toUpperCase() + (pokemon.pokeName).substring(1)} ID: ${pokemon.pokeId}</h3>
-        <h5 class="infoLabel">Height: ${pokemon.pokeHeight} Units</h5>
-        <h5 class="infoLabel">Color: ${pokemon.pokeColor}</h5>
-        <button id="nextEvo">Evolve</button>
-        <button id="prevEvo">Devolve</button>
-        `
 
-    console.log(cardInfo)
-    cardStuff.innerHTML = cardInfo
+    let pImg = document.createElement('img')
+    pImg.src = pokemon.pokeSprite
+
+    let pNameId = document.createElement('h3')
+    pNameId.classList.add("infoLabel")
+    pNameId.innerText = `${(pokemon.pokeName)[0].toUpperCase() + (pokemon.pokeName).substring(1)} ID: ${pokemon.pokeId}`
+
+    let pHeight = document.createElement('h5')
+    pHeight.classList.add("infoLabel")
+    pHeight.innerText = `Height: ${pokemon.pokeHeight} Units`
+
+    let pColor = document.createElement('h5')
+    pColor.classList.add("infoLabel")
+    pColor.innerText = `Color: ${pokemon.pokeColor}`
+
+    let pEvo = document.createElement('button')
+    pEvo.innerText = "Evolve"
+    pEvo.addEventListener("click",async()=>{
+        console.log("Trying Next Evolution")
+        pokemon = await getPoke(pokemon.nextEvo)
+        console.log("newPoke:", pokemon)
+
+        pImg.src = pokemon.pokeSprite
+        pNameId.innerText = `${(pokemon.pokeName)[0].toUpperCase() + (pokemon.pokeName).substring(1)} ID: ${pokemon.pokeId}`
+        pHeight.innerText = `Height: ${pokemon.pokeHeight} Units`
+        pColor.innerText = `Color: ${pokemon.pokeColor}`
+    })
+
+    let pDevo = document.createElement('button')
+    pDevo.innerText = "Devolve"
+    pDevo.addEventListener("click",async()=>{
+        console.log("Trying Previous Evolution")
+        pokemon = await getPoke(pokemon.prevEvo)
+        console.log("newPoke:", pokemon)
+
+        pImg.src = pokemon.pokeSprite
+        pNameId.innerText = `${(pokemon.pokeName)[0].toUpperCase() + (pokemon.pokeName).substring(1)} ID: ${pokemon.pokeId}`
+        pHeight.innerText = `Height: ${pokemon.pokeHeight} Units`
+        pColor.innerText = `Color: ${pokemon.pokeColor}`
+    })
+
+    cardStuff.appendChild(pImg)
+    cardStuff.appendChild(pNameId)
+    cardStuff.appendChild(pHeight)
+    cardStuff.appendChild(pColor)
+    cardStuff.appendChild(pEvo)
+    cardStuff.appendChild(pDevo)
+
     cardHolder.appendChild(cardStuff)
 
-    let prevEvo = document.getElementById("prevEvo")
-    let nextEvo = document.getElementById("nextEvo")
+    // nextEvo = this.addEventListener("click",async()=>{
+    //     //nextEvol(pokemon)
+    //     console.log("Trying Next Evolution")
+    //     if (pokemon.nextEvo !== null){
+    //         let newPokemon = await getPoke(pokemon.nextEvo)
+    //         createCard(newPokemon)
+    //         return
+    //     }
+    //     else{
+    //         alert("The pokemon has no next evolution")
+    //         return
+    //     }
+    // })
+}
 
-    prevEvo = this.addEventListener("click",async()=>{
-        console.log("Trying Previous Evolution")
+//FIXME: error que hace que se ejecuten ambos botones a la vez
+//_______________________________________________________________________________________________________
+/* async function prevEvol(pokemon) {
+    console.log("Trying Previous Evolution")
         if (pokemon.prevEvo !== null){
             let newPokemon = await getPoke(pokemon.prevEvo)
             createCard(newPokemon)
@@ -79,33 +131,32 @@ function createCard (pokemon) {
         else{
             alert("The pokemon has no previous evolution")
         }
-    })
+} */
 
-    nextEvo = this.addEventListener("click",async()=>{
-        console.log("Trying Next Evolution")
+/* async function nextEvol(pokemon) {
+    console.log("Trying Next Evolution")
         if (pokemon.nextEvo !== null){
             let newPokemon = await getPoke(pokemon.nextEvo)
             createCard(newPokemon)
         }
         else{
-            alert("The pokemon has no evolution")
+            alert("The pokemon has no next evolution")
         }
-    })
-}
-
-//FIXME: error que hace que se ejecuten ambos botones a la vez
+} */
 //_______________________________________________________________________________________________________
 function showAPI () {
     let search = document.getElementById("search")
-    let cardHolder = document.getElementById("cardHolder")
+    //let cardHolder = document.getElementById("cardHolder")
 
     const bar = this.document.createElement('input')
     bar.setAttribute("id","bar")
     bar.setAttribute("type","text")
+    bar.placeholder = "Search Pokemon"
     search.appendChild(bar)
 
     let buto = this.document.createElement('button')
-    buto.innerText='search'
+    buto.classList.add("searchButton")
+    buto.innerText='Search'
     buto.addEventListener("click",async()=>{
         //console.log(getPoke(bar.value))
         let pokemon = await getPoke(bar.value)

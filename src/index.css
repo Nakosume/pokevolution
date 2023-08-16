@@ -22,7 +22,7 @@ body{
     width: max-content;
     height: fit-content;
     padding: 3%;
-    width: 30%;
+    width: 15%;
     border-radius: 50px;
     display: flex;
     flex-direction: column;
@@ -39,10 +39,32 @@ body{
 }
 
 button{
-    background-color: black;
+    background-color: #000000;
     color: #FFE81F;
     border-radius: 20px;
-    padding: 10px;
-    margin-top: 10%;
+    margin-top: 3%;
+    padding: 1%;
     border-style: none;
+}
+
+.searchButton{
+    background-color: #FFE81F;
+    color: #000000;
+    margin-left: 1%;
+    margin-top: 0%;
+    padding: 0.5% 1%;
+}
+
+#bar{
+    padding: 7px;
+    border-radius: 50px;
+    border-style: none;
+}
+
+#search{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+    margin-bottom: 2%;
 }
