@@ -6,8 +6,8 @@ const pokemon = {
     pokeSprite: "nullImg",
     pokeColor: "nullColor",
     pokeHeight: "nullHeight",
-    prevEvo: "nullPrev",
-    nextEvo: "nullNext",
+    prevEvo: null,
+    nextEvo: null,
 }
 //_______________________________________________________________________________________________________
 async function getPoke(id) {
@@ -50,28 +50,50 @@ async function getPoke(id) {
 }
 //_______________________________________________________________________________________________________
 function createCard (pokemon) {
+    cardHolder.innerHTML = ``
     console.log("Create Card(), pokemon:",pokemon)
     const cardStuff = this.document.createElement('div');
     cardStuff.classList.add("cardStyle")
     let cardInfo = `
         <img src='${pokemon.pokeSprite}'>
-        <h3>${(pokemon.pokeName)[0].toUpperCase() + (pokemon.pokeName).substring(1)} ID: ${pokemon.pokeId}</h3>
-        <h5>Height: ${pokemon.pokeHeight} Units</h5>
-        <h5>Color: ${pokemon.pokeColor}</h5>
-        <div>
-
-        </div>
+        <h3 class="infoLabel">${(pokemon.pokeName)[0].toUpperCase() + (pokemon.pokeName).substring(1)} ID: ${pokemon.pokeId}</h3>
+        <h5 class="infoLabel">Height: ${pokemon.pokeHeight} Units</h5>
+        <h5 class="infoLabel">Color: ${pokemon.pokeColor}</h5>
+        <button id="nextEvo">Evolve</button>
+        <button id="prevEvo">Devolve</button>
         `
-
-    const cardButton = this.document.createElement('button');
-    cardButton.classList.add("buttonStyle")
-    cardButton.innerText='Add';
 
     console.log(cardInfo)
     cardStuff.innerHTML = cardInfo
-    cardStuff.append(cardButton)
     cardHolder.appendChild(cardStuff)
+
+    let prevEvo = document.getElementById("prevEvo")
+    let nextEvo = document.getElementById("nextEvo")
+
+    prevEvo = this.addEventListener("click",async()=>{
+        console.log("Trying Previous Evolution")
+        if (pokemon.prevEvo !== null){
+            let newPokemon = await getPoke(pokemon.prevEvo)
+            createCard(newPokemon)
+        }
+        else{
+            alert("The pokemon has no previous evolution")
+        }
+    })
+
+    nextEvo = this.addEventListener("click",async()=>{
+        console.log("Trying Next Evolution")
+        if (pokemon.nextEvo !== null){
+            let newPokemon = await getPoke(pokemon.nextEvo)
+            createCard(newPokemon)
+        }
+        else{
+            alert("The pokemon has no evolution")
+        }
+    })
 }
+
+//FIXME: error que hace que se ejecuten ambos botones a la vez
 //_______________________________________________________________________________________________________
 function showAPI () {
     let search = document.getElementById("search")
