@@ -1,5 +1,7 @@
 console.log("Initializing API Fetch");
+
 //_______________________________________________________________________________________________________
+
 const pokemonObj = {
     pokeName: "nullname",
     pokeId: "nullid",
@@ -9,7 +11,9 @@ const pokemonObj = {
     prevEvo: null,
     nextEvo: null,
 }
+
 //_______________________________________________________________________________________________________
+
 async function getPoke(id) {
     console.log("loading data...")
     try{
@@ -48,7 +52,9 @@ async function getPoke(id) {
         alert("Couldn't fetch from API. Try checking the spelling.")
     }
 }
+
 //_______________________________________________________________________________________________________
+
 function createCard (pokemon) {
     cardHolder.innerHTML = null
     console.log("Create Card(), pokemon:",pokemon)
@@ -104,46 +110,10 @@ function createCard (pokemon) {
     cardStuff.appendChild(pDevo)
 
     cardHolder.appendChild(cardStuff)
-
-    // nextEvo = this.addEventListener("click",async()=>{
-    //     //nextEvol(pokemon)
-    //     console.log("Trying Next Evolution")
-    //     if (pokemon.nextEvo !== null){
-    //         let newPokemon = await getPoke(pokemon.nextEvo)
-    //         createCard(newPokemon)
-    //         return
-    //     }
-    //     else{
-    //         alert("The pokemon has no next evolution")
-    //         return
-    //     }
-    // })
 }
 
-//FIXME: error que hace que se ejecuten ambos botones a la vez
 //_______________________________________________________________________________________________________
-/* async function prevEvol(pokemon) {
-    console.log("Trying Previous Evolution")
-        if (pokemon.prevEvo !== null){
-            let newPokemon = await getPoke(pokemon.prevEvo)
-            createCard(newPokemon)
-        }
-        else{
-            alert("The pokemon has no previous evolution")
-        }
-} */
 
-/* async function nextEvol(pokemon) {
-    console.log("Trying Next Evolution")
-        if (pokemon.nextEvo !== null){
-            let newPokemon = await getPoke(pokemon.nextEvo)
-            createCard(newPokemon)
-        }
-        else{
-            alert("The pokemon has no next evolution")
-        }
-} */
-//_______________________________________________________________________________________________________
 function showAPI () {
     let search = document.getElementById("search")
     //let cardHolder = document.getElementById("cardHolder")
@@ -164,5 +134,7 @@ function showAPI () {
     })
     search.appendChild(buto)
 }
+
 //_______________________________________________________________________________________________________
+
 showAPI()
